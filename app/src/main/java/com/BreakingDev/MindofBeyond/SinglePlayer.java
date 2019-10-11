@@ -1,18 +1,11 @@
 package com.BreakingDev.MindofBeyond;
 
-import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,7 +47,7 @@ public class SinglePlayer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.single_player);
 
         pm = new PositionMethods();
         rm = new RotationMethods();
@@ -110,8 +103,8 @@ public class SinglePlayer extends AppCompatActivity {
         carY += velocity[1] * vel_multiplier;
 
 
-        if (carY + car.getHeight() <0 | carY + car.getHeight() > screenHeigh|
-                carX+ car.getWidth() <0 |carX + car.getWidth() > screenWidth){
+        if (carY + car.getHeight() < 0 | carY > screenHeigh |
+                carX + car.getWidth() < 0 | carX > screenWidth) {
             //create new starting point
             Float[] new_start = genStart();
             carX = new_start[0];
