@@ -59,21 +59,21 @@ public class PositionMethods {
         if (rnd <= 0.25) {
             //generate on top wall
             y = 0;
-            x = Math.floor(randomNumber() * (screenWidth - ballWidth));
+            x = Math.floor(randomNumber() * (screenWidth));
             start_pos = 1;
         } else if (0.25 < rnd && rnd <= 0.5) {
             //generate on right wall
-            y = Math.floor(randomNumber() * (screenHeigh - ballHeight));
+            y = Math.floor(randomNumber() * (screenHeigh));
             x = screenWidth - ballWidth;
             start_pos = 2;
         } else if (0.5 < rnd && rnd <= 0.75) {
             //generate on bottom wall
             y = screenHeigh - ballHeight;
-            x = Math.floor(randomNumber() * (screenWidth - ballWidth));
+            x = Math.floor(randomNumber() * (screenWidth));
             start_pos = 3;
         } else {
             //generate on left wall
-            y = Math.floor(randomNumber() * (screenHeigh - ballHeight));
+            y = Math.floor(randomNumber() * (screenHeigh));
             x = 0;
             start_pos = 4;
         }
