@@ -31,11 +31,11 @@ public class SinglePlayer extends AppCompatActivity {
     private int screenHeigh;
 
     //image
-    private ImageView car;
+    private ImageView ball;
 
     //position
-    private float carX;
-    private float carY;
+    private float ballX;
+    private float ballY;
 
     //velocity
     private Float[] velocity = null;
@@ -52,7 +52,7 @@ public class SinglePlayer extends AppCompatActivity {
         pm = new PositionMethods();
         rm = new RotationMethods();
 
-        car = (ImageView) findViewById(R.id.car);
+        ball = (ImageView) findViewById(R.id.ball);
 
         //get screen size
 
@@ -64,8 +64,8 @@ public class SinglePlayer extends AppCompatActivity {
         screenHeigh = size.y;
 
         //Move out of screen
-        car.setX(-80.0f);
-        car.setY(-80.0f);
+        ball.setX(-80.0f);
+        ball.setY(-80.0f);
 
         //Start the timer
 
@@ -99,22 +99,22 @@ public class SinglePlayer extends AppCompatActivity {
             velocity = genVelocity();
         }
 
-        carX += velocity[0] * vel_multiplier;
-        carY += velocity[1] * vel_multiplier;
+        ballX += velocity[0] * vel_multiplier;
+        ballY += velocity[1] * vel_multiplier;
 
 
-        if (carY + car.getHeight() < 0 | carY > screenHeigh |
-                carX + car.getWidth() < 0 | carX > screenWidth) {
+        if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
+                ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
             Float[] new_start = genStart();
-            carX = new_start[0];
-            carY = new_start[1];
+            ballX = new_start[0];
+            ballY = new_start[1];
             //create random velocity vector
             velocity = genVelocity();
         }
 
-        car.setX(carX);
-        car.setY(carY);
+        ball.setX(ballX);
+        ball.setY(ballY);
     }
 
     public void reload() {
@@ -156,24 +156,24 @@ public class SinglePlayer extends AppCompatActivity {
         if(rnd<=0.25){
             //generate on top wall
             y = 0;
-            x = (float)Math.floor(Math.random()*(screenWidth - car.getWidth()));
+            x = (float)Math.floor(Math.random()*(screenWidth - ball.getWidth()));
         }
         else if (0.25<rnd && rnd<=0.5){
             //generate on right wall
-            y = (float)Math.floor(Math.random()*(screenHeigh - car.getHeight()));
-            x = screenWidth - car.getWidth();
+            y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
+            x = screenWidth - ball.getWidth();
 
         }
         else if (0.5<rnd && rnd<=0.75){
             //generate on bottom wall
-            y = screenHeigh - car.getHeight();
-            x = (float)Math.floor(Math.random()*(screenWidth - car.getWidth()));
+            y = screenHeigh - ball.getHeight();
+            x = (float)Math.floor(Math.random()*(screenWidth - ball.getWidth()));
             //car.setY((screenHeigh - car.getHeight()));
             //car.setX((float)Math.floor(Math.random()*(screenWidth - car.getWidth())));
         }
         else{
             //generate on left wall
-            y = (float)Math.floor(Math.random()*(screenHeigh - car.getHeight()));
+            y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
             x = 0 ;
         }
         Float[] array = new Float[2];

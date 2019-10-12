@@ -8,7 +8,7 @@
     <include layout="@layout/single_player_aux" />
 
     <ImageView
-        android:id="@+id/car"
+        android:id="@+id/ball"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/myball" />
