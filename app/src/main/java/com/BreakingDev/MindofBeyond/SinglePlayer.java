@@ -66,10 +66,10 @@ public class SinglePlayer extends AppCompatActivity {
     private int action_period;
 
     //settings
-    private Double[][] settings  = {
+    private Double[][] settings  = { //[[p_nothing, p_dir, p_tp]]
             { 0.7,0.3,0.0},//10
-            { 0.3,0.7,0.0},
-            { 0.2,0.8,0.0},
+            { 0.3,0.7,0.0},//20
+            { 0.2,0.8,0.0},//30
             { 0.1,0.9,0.0},
             { 0.0,1.0,0.0},
             { 0.0,1.0,0.0} };;//70
@@ -194,7 +194,6 @@ public class SinglePlayer extends AppCompatActivity {
             vel_multiplier= 0.2 + 0.05 * g_level;
         }
         else if (g_level<20){
-
             rm.setBaseRotation(12);
             action_period  = 40;
 
@@ -310,7 +309,6 @@ public class SinglePlayer extends AppCompatActivity {
         }
         ballX += velocity.get(0) * vel_multiplier;
         ballY += velocity.get(1) * vel_multiplier;
-
 
         ball.setX((float)ballX);
         ball.setY((float)ballY);
