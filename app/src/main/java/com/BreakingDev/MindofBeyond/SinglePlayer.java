@@ -249,13 +249,10 @@ public class SinglePlayer extends AppCompatActivity {
         */
 
         double rnd = Math.random();
-        Log.e("TEST",Double.toString(rnd));
         if (rnd<p_nothing){
-            Log.e("TEST","FIZ NADA");
         }
         else if(rnd-p_nothing<p_dir){
             velocity = rm.changeRotation(velocity);
-            Log.e("TEST","mudei de direção");
         }
         else if(rnd-p_nothing-p_dir<p_tp){
 
