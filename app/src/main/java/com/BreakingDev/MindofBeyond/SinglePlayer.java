@@ -63,12 +63,10 @@ public class SinglePlayer extends AppCompatActivity {
         screenWidth = size.x;
         screenHeigh = size.y;
 
-        //Move out of screen
-        ball.setX(-80.0f);
-        ball.setY(-80.0f);
+        //Start the game
+        gameStart();
 
-        //Start the timer
-
+        /*
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -81,27 +79,64 @@ public class SinglePlayer extends AppCompatActivity {
             }
         }, 0, 1);
 
+
+
+         */
+
         button=(Button)findViewById(R.id.moveball);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                level.setL(level.getL()+1);
-                reload();
+                timer.cancel();
             }
         });
 
+
+
     }
 
-    public void gameRun(){
+    public void gameStart(){
+        //define Level 1
+        level.setL(1);
+
+        //Move out of screen
+        ball.setX(-80.0f);
+        ball.setY(-80.0f);
+        //set on click image and background TODO
+
+
+        runLevel(level.getL());
+        //loop while not lost, run game
+
+        //if lost, restart
+    }
+    public void runLevel(int g_level){
+        //define what the level will be like
+        vel_multiplier= 1 * g_level;
+        final double prob_change_direction = 0.4;
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        moveBall(prob_change_direction);
+                    }
+                });
+            }
+        }, 0, 1);
+
+    }
+
+    public void moveBall(double prob_change_direction){
+
         // if passed wall, set beginning position
-        vel_multiplier = 2;
         if(velocity ==null){
             velocity = genVelocity();
         }
-
         ballX += velocity[0] * vel_multiplier;
         ballY += velocity[1] * vel_multiplier;
-
 
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
@@ -112,9 +147,9 @@ public class SinglePlayer extends AppCompatActivity {
             //create random velocity vector
             velocity = genVelocity();
         }
-
         ball.setX(ballX);
         ball.setY(ballY);
+
     }
 
     public void reload() {
