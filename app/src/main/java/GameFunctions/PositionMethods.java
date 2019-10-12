@@ -1,7 +1,5 @@
 package GameFunctions;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +11,14 @@ public class PositionMethods {
     private double ballHeight;
 
 
-    public PositionMethods(int screenWidth, int screenHeigh, int ballWidth, int ballHeight) {
+    public PositionMethods(int screenWidth, int screenHeigh, double ballWidth, double ballHeight) {
         this.screenWidth = screenWidth;
         this.screenHeigh = screenHeigh;
         this.ballWidth = ballWidth;
-        this.screenHeigh = ballHeight;
+        this.ballHeight = ballHeight;
     }
 
-    public List<Double> genDirectionVector(@Nullable List<Integer> position, int start) {
+    public List<Double> genDirectionVector(List<Integer> position, int start) {
         double angle = generateRandomDirectionAngle(position);
 
         double x = Math.cos(angle);
@@ -93,12 +91,14 @@ public class PositionMethods {
         // Makes te ball go slightly to the center of the screen so
         // it doesn't spend most of the time in the corners of the screen
 
-        List<Double> centerDirection = new ArrayList<>(2);
+        double direction_x = (double) screenWidth / 2 - position.get(0);
+        double direction_y = position.get(1) - (double) screenHeigh / 2;
 
-        centerDirection.add((double) screenWidth / 2 - position.get(0));
-        centerDirection.add(position.get(1) - (double) screenHeigh / 2);
+        if (randomNumber() < 0.5)
+            return Math.toRadians(40 * randomNumber()) + (1 / Math.tan(direction_y / direction_x));
 
-        return randomNumber()*360;
+        else
+            return Math.toRadians(-40 * randomNumber()) + (1 / Math.tan(direction_y / direction_x));
     }
 
     private double randomNumber(){
