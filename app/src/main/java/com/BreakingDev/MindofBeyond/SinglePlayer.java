@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import GameFunctions.Level;
 import GameFunctions.PositionMethods;
@@ -79,6 +80,8 @@ public class SinglePlayer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         ball = (ImageView) findViewById(R.id.ball);
         app_layer = (LinearLayout) findViewById(R.id.Layout);
@@ -149,7 +152,23 @@ public class SinglePlayer extends AppCompatActivity {
 
         ballX = -1000.0f;
         ballY= -1000.0f;
+        ball.setX((float)ballX);
+        ball.setY((float)ballY);
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+
         Double[] settings_used;
+        //velocity
+        List<Double> pos = new ArrayList<>();
+        pos.add((double)ball.getX());
+        pos.add((double)ball.getY());
+        velocity = pm.genDirectionVector(pos);
 
         //define what the level will be like p_nothing, p_dir, p_tp
         if (g_level/10> settings.length -1){
@@ -255,7 +274,11 @@ public class SinglePlayer extends AppCompatActivity {
             velocity = rm.changeRotation(velocity);
         }
         else if(rnd-p_nothing-p_dir<p_tp){
-
+            List<Double> pos = pm.genStart();
+            ballX = pos.get(0);
+            ballY = pos.get(1);
+            //create random velocity vector
+            velocity = pm.genDirectionVector(pos);
         }
         else if(rnd-p_nothing-p_dir-p_tp<p_slow){
 
@@ -263,8 +286,6 @@ public class SinglePlayer extends AppCompatActivity {
         else if(rnd-p_nothing-p_dir-p_tp-p_slow<p_speed){
 
         }
-
-
     }
 
     public void moveBall(double prob_change_direction){
@@ -276,7 +297,6 @@ public class SinglePlayer extends AppCompatActivity {
             pos.add((double)ball.getY());
             velocity = pm.genDirectionVector(pos);
         }
-
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
@@ -285,7 +305,6 @@ public class SinglePlayer extends AppCompatActivity {
             ballY = pos.get(1);
             //create random velocity vector
             velocity = pm.genDirectionVector(pos);
-
         }
         ballX += velocity.get(0) * vel_multiplier;
         ballY += velocity.get(1) * vel_multiplier;
