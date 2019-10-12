@@ -31,8 +31,12 @@ public class PositionMethods {
         double x = Math.cos(new_angle) * center_direction_x / Math.cos(angle_to_center);
         double y = Math.sin(new_angle) * center_direction_y / Math.sin(angle_to_center);
 
+<<<<<<< HEAD
         x = x/(x+y);
         y = y/(x+y);
+=======
+
+>>>>>>> d36f9f6803da4b5a1ca39f29222f125ed98b4d60
         List<Double> vector = new ArrayList<>(2);
 
         vector.add(x);
