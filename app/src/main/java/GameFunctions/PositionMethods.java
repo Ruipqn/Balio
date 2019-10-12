@@ -35,6 +35,8 @@ public class PositionMethods {
         x = x/(x+y);
         y = y/(x+y);
 =======
+        x = x / (x + y);
+        y = y / (x + y);
 
 >>>>>>> d36f9f6803da4b5a1ca39f29222f125ed98b4d60
         List<Double> vector = new ArrayList<>(2);
