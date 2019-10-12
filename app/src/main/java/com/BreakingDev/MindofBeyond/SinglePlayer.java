@@ -12,8 +12,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import GameFunctions.Level;
 import GameFunctions.PositionMethods;
@@ -21,8 +26,6 @@ import GameFunctions.RotationMethods;
 
 public class SinglePlayer extends AppCompatActivity {
 
-    private PositionMethods pm;
-    private RotationMethods rm;
     private Level level = Level.getInstance();
 
     Button button;
@@ -38,19 +41,21 @@ public class SinglePlayer extends AppCompatActivity {
     private float ballY;
 
     //velocity
-    private Float[] velocity = null;
-    private float vel_multiplier= 1;
+    private List<Double> velocity = null;
+    private double vel_multiplier= 1;
 
     private Handler handler = new Handler();
     private Timer timer = new Timer();
+    private Timer timerWeirdMov = new Timer();
+
+    //functions
+    private PositionMethods pm;
+    private RotationMethods rm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player);
-
-        pm = new PositionMethods();
-        rm = new RotationMethods();
 
         ball = (ImageView) findViewById(R.id.ball);
 
@@ -62,6 +67,9 @@ public class SinglePlayer extends AppCompatActivity {
         disp.getSize(size);
         screenWidth = size.x;
         screenHeigh = size.y;
+
+        //pm = new PositionMethods( screenWidth, screenHeigh, (double) ball.getX(), (double) ball.getY());
+        rm = new RotationMethods();
 
         //Start the game
         gameStart();
@@ -78,11 +86,7 @@ public class SinglePlayer extends AppCompatActivity {
                 });
             }
         }, 0, 1);
-
-
-
          */
-
         button=(Button)findViewById(R.id.moveball);
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -90,9 +94,6 @@ public class SinglePlayer extends AppCompatActivity {
                 timer.cancel();
             }
         });
-
-
-
     }
 
     public void gameStart(){
@@ -104,6 +105,13 @@ public class SinglePlayer extends AppCompatActivity {
         ball.setY(-80.0f);
         //set on click image and background TODO
 
+        ball.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                timer.cancel();
+            }
+        });
+
 
         runLevel(level.getL());
         //loop while not lost, run game
@@ -112,7 +120,7 @@ public class SinglePlayer extends AppCompatActivity {
     }
     public void runLevel(int g_level){
         //define what the level will be like
-        vel_multiplier= 1 * g_level;
+        vel_multiplier= 3 * g_level;
         final double prob_change_direction = 0.4;
 
         timer.schedule(new TimerTask() {
@@ -127,39 +135,62 @@ public class SinglePlayer extends AppCompatActivity {
             }
         }, 0, 1);
 
+        timerWeirdMov.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        weirdMovements(prob_change_direction);
+                    }
+                });
+            }
+        }, 50, 1000);
+
+    }
+    public void weirdMovements(double probabilities){
+        //mudar propriedades da bola
+        Float[] a = genVelocity();
+        velocity = new ArrayList<Double>();
+        velocity.add((double)a[0]);
+        velocity.add((double)a[1]);
+
     }
 
     public void moveBall(double prob_change_direction){
 
         // if passed wall, set beginning position
         if(velocity ==null){
-            velocity = genVelocity();
+            //velocity = pm.genDirectionVector();
+            Float[] a = genVelocity();
+            velocity = new ArrayList<Double>();
+            velocity.add((double)a[0]);
+            velocity.add((double)a[1]);
         }
-        ballX += velocity[0] * vel_multiplier;
-        ballY += velocity[1] * vel_multiplier;
 
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
-            Float[] new_start = genStart();
-            ballX = new_start[0];
-            ballY = new_start[1];
+            List<Float> new_start = genStart();
+            ballX = new_start.get(0);
+            ballY = new_start.get(1);
             //create random velocity vector
-            velocity = genVelocity();
+
+
+            //velocity = pm.genDirectionVector();
+            Float[] a = genVelocity();
+            velocity = new ArrayList<Double>();
+            velocity.add((double)a[0]);
+            velocity.add((double)a[1]);
         }
+        ballX += velocity.get(0) * vel_multiplier;
+        ballY += velocity.get(1) * vel_multiplier;
+
+
         ball.setX(ballX);
         ball.setY(ballY);
 
     }
-
-    public void reload() {
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-    }
-
     public Float[] genVelocity() {
         //we should add a rule so the velocity doesn't go inside the wall right away
         float rnd1 = (float)Math.random();
@@ -184,7 +215,16 @@ public class SinglePlayer extends AppCompatActivity {
         return velocity;
     }
 
-    public Float[] genStart(){
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
+
+    public List<Float> genStart(){
         double rnd = Math.random();
         float x;
         float y;
@@ -197,23 +237,20 @@ public class SinglePlayer extends AppCompatActivity {
             //generate on right wall
             y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
             x = screenWidth - ball.getWidth();
-
         }
         else if (0.5<rnd && rnd<=0.75){
             //generate on bottom wall
             y = screenHeigh - ball.getHeight();
             x = (float)Math.floor(Math.random()*(screenWidth - ball.getWidth()));
-            //car.setY((screenHeigh - car.getHeight()));
-            //car.setX((float)Math.floor(Math.random()*(screenWidth - car.getWidth())));
         }
         else{
             //generate on left wall
             y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
             x = 0 ;
         }
-        Float[] array = new Float[2];
-        array[0] = x;
-        array[1] = y;
+        List<Float> array =  new ArrayList<Float>();
+        array.add(x);
+        array.add(y);
         return array;
     }
 }
