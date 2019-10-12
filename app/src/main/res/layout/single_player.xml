@@ -20,24 +20,24 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/myball" />
+
     <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:fontFamily="cursive"
+        android:fontFamily="casual"
         android:text="Score: 1"
         android:textAlignment="center"
         android:textColor="#FF9100"
         android:textSize="50sp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/ball"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/myball" />
 
     <ImageView
         android:id="@+id/life1"

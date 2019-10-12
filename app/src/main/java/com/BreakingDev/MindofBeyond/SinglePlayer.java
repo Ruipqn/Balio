@@ -147,7 +147,9 @@ public class SinglePlayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
-
+                if (lives<3){
+                    lives+=1;
+                }
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
             }
