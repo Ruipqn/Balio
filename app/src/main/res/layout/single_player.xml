@@ -5,7 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".SinglePlayer">
 
-    <include layout="@layout/single_player_aux" />
+    <include
+        android:id="@+id/screen"
+        layout="@layout/single_player_aux"
+        android:clickable="true"
+        android:focusable="auto" />
+
+    <LinearLayout
+        android:id="@+id/Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"></LinearLayout>
 
     <ImageView
         android:id="@+id/ball"
