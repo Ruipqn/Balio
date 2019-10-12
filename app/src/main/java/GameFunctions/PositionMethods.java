@@ -44,8 +44,8 @@ public class PositionMethods {
         return vector;
     }
 
-    public List<Double> genDirectionVector() {
-        return genDirectionVector(null, 0);
+    public List<Double> genDirectionVector(List<Double> position) {
+        return genDirectionVector(position, 0);
     }
 
     public List<Double> genStart() {
