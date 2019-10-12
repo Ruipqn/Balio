@@ -18,7 +18,7 @@ public class PositionMethods {
         this.ballHeight = ballHeight;
     }
 
-    public List<Double> genDirectionVector(List<Integer> position, int start) {
+    public List<Double> genDirectionVector(List<Double> position, int start) {
         double angle = generateRandomDirectionAngle(position);
 
         double x = Math.cos(angle);
@@ -87,7 +87,7 @@ public class PositionMethods {
         return array;
     }
 
-    private double generateRandomDirectionAngle(List<Integer> position) {
+    private double generateRandomDirectionAngle(List<Double> position) {
         // Makes te ball go slightly to the center of the screen so
         // it doesn't spend most of the time in the corners of the screen
 
