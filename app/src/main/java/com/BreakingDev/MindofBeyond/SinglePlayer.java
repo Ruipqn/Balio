@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,14 +12,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 import GameFunctions.Level;
 import GameFunctions.PositionMethods;
@@ -70,7 +65,7 @@ public class SinglePlayer extends AppCompatActivity {
         screenWidth = size.x;
         screenHeigh = size.y;
 
-        pm = new PositionMethods( screenWidth, screenHeigh, (double) ball.getX(), (double) ball.getY());
+        pm = new PositionMethods(screenWidth, screenHeigh, ball.getWidth(), ball.getHeight());
         rm = new RotationMethods();
 
         //Start the game
@@ -122,7 +117,7 @@ public class SinglePlayer extends AppCompatActivity {
     }
     public void runLevel(int g_level){
         //define what the level will be like
-        vel_multiplier= 3 * g_level;
+        vel_multiplier = 0.004 * g_level;
         final double prob_change_direction = 0.4;
 
         timer.schedule(new TimerTask() {
@@ -139,7 +134,6 @@ public class SinglePlayer extends AppCompatActivity {
 
     }
     public void doOneAction(int delay){
-        Log.e("EXAMPLE","DEU MERDA");
         actionTimer.cancel();
         actionTimer = new Timer();
         actionTimer.schedule(new TimerTask() {
