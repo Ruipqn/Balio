@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -37,8 +39,8 @@ public class SinglePlayer extends AppCompatActivity {
     private ImageView ball;
 
     //position
-    private float ballX;
-    private float ballY;
+    private double ballX;
+    private double ballY;
 
     //velocity
     private List<Double> velocity = null;
@@ -46,7 +48,7 @@ public class SinglePlayer extends AppCompatActivity {
 
     private Handler handler = new Handler();
     private Timer timer = new Timer();
-    private Timer timerWeirdMov = new Timer();
+    private Timer actionTimer = new Timer();
 
     //functions
     private PositionMethods pm;
@@ -68,7 +70,7 @@ public class SinglePlayer extends AppCompatActivity {
         screenWidth = size.x;
         screenHeigh = size.y;
 
-        //pm = new PositionMethods( screenWidth, screenHeigh, (double) ball.getX(), (double) ball.getY());
+        pm = new PositionMethods( screenWidth, screenHeigh, (double) ball.getX(), (double) ball.getY());
         rm = new RotationMethods();
 
         //Start the game
@@ -135,25 +137,46 @@ public class SinglePlayer extends AppCompatActivity {
             }
         }, 0, 1);
 
-        timerWeirdMov.schedule(new TimerTask() {
+    }
+    public void doOneAction(int delay){
+        Log.e("EXAMPLE","DEU MERDA");
+        actionTimer.cancel();
+        actionTimer = new Timer();
+        actionTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        weirdMovements(prob_change_direction);
+                        action();
                     }
                 });
             }
-        }, 50, 1000);
-
+        }, delay);
     }
-    public void weirdMovements(double probabilities){
+    public void doCicleAction(int delay,int period) {
+
+        actionTimer.cancel();
+        actionTimer = new Timer();
+        actionTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        action();
+                    }
+                });
+            }
+        }, delay, period);
+    }
+
+    public void action(){
         //mudar propriedades da bola
-        Float[] a = genVelocity();
-        velocity = new ArrayList<Double>();
-        velocity.add((double)a[0]);
-        velocity.add((double)a[1]);
+        List<Double> pos = new ArrayList<>();
+        pos.add((double)ball.getX());
+        pos.add((double)ball.getY());
+        velocity = pm.genDirectionVector(pos);
 
     }
 
@@ -161,34 +184,28 @@ public class SinglePlayer extends AppCompatActivity {
 
         // if passed wall, set beginning position
         if(velocity ==null){
-            //velocity = pm.genDirectionVector();
-            Float[] a = genVelocity();
-            velocity = new ArrayList<Double>();
-            velocity.add((double)a[0]);
-            velocity.add((double)a[1]);
+            List<Double> pos = new ArrayList<>();
+            pos.add((double)ball.getX());
+            pos.add((double)ball.getY());
+            velocity = pm.genDirectionVector(pos);
         }
 
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
-            List<Float> new_start = genStart();
-            ballX = new_start.get(0);
-            ballY = new_start.get(1);
+            doOneAction(1000);
+            List<Double> pos = pm.genStart();
+            ballX = pos.get(0);
+            ballY = pos.get(1);
             //create random velocity vector
-
-
-            //velocity = pm.genDirectionVector();
-            Float[] a = genVelocity();
-            velocity = new ArrayList<Double>();
-            velocity.add((double)a[0]);
-            velocity.add((double)a[1]);
+            velocity = pm.genDirectionVector(pos);
         }
         ballX += velocity.get(0) * vel_multiplier;
         ballY += velocity.get(1) * vel_multiplier;
 
 
-        ball.setX(ballX);
-        ball.setY(ballY);
+        ball.setX((float)ballX);
+        ball.setY((float)ballY);
 
     }
     public Float[] genVelocity() {
@@ -224,33 +241,4 @@ public class SinglePlayer extends AppCompatActivity {
     }
 
 
-    public List<Float> genStart(){
-        double rnd = Math.random();
-        float x;
-        float y;
-        if(rnd<=0.25){
-            //generate on top wall
-            y = 0;
-            x = (float)Math.floor(Math.random()*(screenWidth - ball.getWidth()));
-        }
-        else if (0.25<rnd && rnd<=0.5){
-            //generate on right wall
-            y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
-            x = screenWidth - ball.getWidth();
-        }
-        else if (0.5<rnd && rnd<=0.75){
-            //generate on bottom wall
-            y = screenHeigh - ball.getHeight();
-            x = (float)Math.floor(Math.random()*(screenWidth - ball.getWidth()));
-        }
-        else{
-            //generate on left wall
-            y = (float)Math.floor(Math.random()*(screenHeigh - ball.getHeight()));
-            x = 0 ;
-        }
-        List<Float> array =  new ArrayList<Float>();
-        array.add(x);
-        array.add(y);
-        return array;
-    }
 }
