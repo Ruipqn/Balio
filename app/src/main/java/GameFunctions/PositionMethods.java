@@ -1,5 +1,7 @@
 package GameFunctions;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,19 +36,24 @@ public class PositionMethods {
         x = x / (x + y);
         y = y / (x + y);
 
+        double length = Math.sqrt(x*x + y*y);
+
+        if(length > 0){
+            x /= length;
+            y /= length;
+        }
 
         List<Double> vector = new ArrayList<>(2);
 
         vector.add(x);
         vector.add(y);
 
+        //Log.e("TEST",Double.toString(Math.sqrt(x*x + y*y)));
         return vector;
     }
 
     public List<Double> genStart() {
-
         double rnd = randomNumber();
-
         double x;
         double y;
         double start_pos;

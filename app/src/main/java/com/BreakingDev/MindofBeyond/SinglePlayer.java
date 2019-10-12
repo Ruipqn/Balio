@@ -130,6 +130,7 @@ public class SinglePlayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
+
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
             }
@@ -150,13 +151,16 @@ public class SinglePlayer extends AppCompatActivity {
 
         timer = new Timer();
 
-        ballX = -1000.0f;
-        ballY= -1000.0f;
+        ballX = 100000f;
+        ballY= 100000f;
         ball.setX((float)ballX);
         ball.setY((float)ballY);
+
         try
         {
+            ball.setVisibility(View.INVISIBLE);
             Thread.sleep(500);
+            ball.setVisibility(View.VISIBLE);
         }
         catch(InterruptedException ex)
         {
@@ -257,8 +261,6 @@ public class SinglePlayer extends AppCompatActivity {
     }
 
     public void action(){
-
-
         /*
         p_nothing
         p_dir
@@ -284,7 +286,6 @@ public class SinglePlayer extends AppCompatActivity {
 
         }
         else if(rnd-p_nothing-p_dir-p_tp-p_slow<p_speed){
-
         }
     }
 
@@ -300,7 +301,7 @@ public class SinglePlayer extends AppCompatActivity {
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
-            
+
             List<Double> pos = pm.genStart();
             ballX = pos.get(0);
             ballY = pos.get(1);
@@ -309,6 +310,7 @@ public class SinglePlayer extends AppCompatActivity {
         }
         ballX += velocity.get(0) * vel_multiplier;
         ballY += velocity.get(1) * vel_multiplier;
+
 
         ball.setX((float)ballX);
         ball.setY((float)ballY);
