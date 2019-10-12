@@ -5,11 +5,15 @@ import java.util.List;
 
 public class RotationMethods {
 
-    private int baseRotation;
+    private int baseRotation = 10;
 
     public RotationMethods() {}
 
     public List changeRotation(List<Double> direction) {
+
+        // Make the ball rotate to the other direction
+        if (Math.random() < 0.5)
+            setBaseRotation(getBaseRotation() * -1);
 
         double x = direction.get(0);
         double y = direction.get(1);
