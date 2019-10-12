@@ -300,6 +300,7 @@ public class SinglePlayer extends AppCompatActivity {
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
+            
             List<Double> pos = pm.genStart();
             ballX = pos.get(0);
             ballY = pos.get(1);
