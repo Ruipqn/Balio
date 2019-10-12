@@ -112,13 +112,6 @@ public class SinglePlayer extends AppCompatActivity {
             }
         }, 0, 1);
          */
-        button=(Button)findViewById(R.id.moveball);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                timer.cancel();
-            }
-        });
     }
 
     public void gameStart(){
