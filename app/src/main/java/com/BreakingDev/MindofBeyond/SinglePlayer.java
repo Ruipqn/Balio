@@ -159,7 +159,7 @@ public class SinglePlayer extends AppCompatActivity {
         try
         {
             ball.setVisibility(View.INVISIBLE);
-            Thread.sleep(500);
+            Thread.sleep(250);
             ball.setVisibility(View.VISIBLE);
         }
         catch(InterruptedException ex)
