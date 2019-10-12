@@ -53,7 +53,7 @@ public class PositionMethods {
 
         if (rnd <= 0.25) {
             //generate on top wall
-            y = 0;
+            y = -ballHeight;
             x = Math.floor(randomNumber() * screenWidth);
         } else if (0.25 < rnd && rnd <= 0.5) {
             //generate on right wall
@@ -66,7 +66,7 @@ public class PositionMethods {
         } else {
             //generate on left wall
             y = Math.floor(randomNumber() * screenHeigh);
-            x = 0;
+            x = -ballWidth;
         }
 
         List<Double> array = new ArrayList<>(2);
