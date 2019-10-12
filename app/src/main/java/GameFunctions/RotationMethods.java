@@ -18,8 +18,10 @@ public class RotationMethods {
         double x = direction.get(0);
         double y = direction.get(1);
 
-        double new_x = x * Math.cos(getBaseRotation()) + y * Math.sin(getBaseRotation());
-        double new_y = y * Math.cos(getBaseRotation()) - x * Math.sin(getBaseRotation());
+        double new_x = x * Math.cos(Math.toRadians(getBaseRotation())) +
+                y * Math.sin(Math.toRadians(getBaseRotation()));
+        double new_y = y * Math.cos(Math.toRadians(getBaseRotation())) -
+                x * Math.sin(Math.toRadians(getBaseRotation()));
 
         List<Double> vector = new ArrayList<>();
 
