@@ -14,8 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,15 @@ public class SinglePlayer extends AppCompatActivity {
     private double p_speed;
     private int action_period;
 
+    //lifes
+    private int lives;
+    private ImageView life1;
+    private ImageView life2;
+    private ImageView life3;
+
+    //score
+    private TextView score_text;
+
     //settings
     private Double[][] settings  = { //[[p_nothing, p_dir, p_tp]]
             { 0.7,0.3,0.0},//10
@@ -95,9 +107,13 @@ public class SinglePlayer extends AppCompatActivity {
         screenHeigh = size.y;
 
         pm = new PositionMethods(screenWidth, screenHeigh, ball.getWidth(), ball.getHeight());
-
         rm = new RotationMethods();
 
+        life1 = (ImageView) findViewById(R.id.life1);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life3 = (ImageView) findViewById(R.id.life3);
+
+        score_text = (TextView) findViewById(R.id.score);
         //Start the game
         gameStart();
 
@@ -119,6 +135,7 @@ public class SinglePlayer extends AppCompatActivity {
     public void gameStart(){
         //define Level 1
         level.setL(1);
+        lives = 3;
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
 
@@ -130,7 +147,9 @@ public class SinglePlayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
-
+                if (lives<3){
+                    lives+=1;
+                }
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
             }
@@ -138,7 +157,17 @@ public class SinglePlayer extends AppCompatActivity {
         app_layer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                timer.cancel();
+                actionTimer.cancel();
                 //click on screen
+                if(lives >0){
+                    lives -= 1;
+                }
+                else{
+                    lives =3;
+                    level.setL(0);
+                }
+                runLevel(level.getL());
             }
         });
 
@@ -150,6 +179,28 @@ public class SinglePlayer extends AppCompatActivity {
     public void runLevel(int g_level){
 
         timer = new Timer();
+        //update lives
+        if(lives ==3){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.VISIBLE);
+            life3.setVisibility(View.VISIBLE);
+        }else if(lives ==2){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.VISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }else if(lives ==1){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }else{
+            life1.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }
+        //update score
+        String score_string= "Score: " + g_level;
+        score_text.setText(score_string);
+
 
         ballX = 100000f;
         ballY= 100000f;
@@ -159,7 +210,7 @@ public class SinglePlayer extends AppCompatActivity {
         try
         {
             ball.setVisibility(View.INVISIBLE);
-            Thread.sleep(500);
+            Thread.sleep(250);
             ball.setVisibility(View.VISIBLE);
         }
         catch(InterruptedException ex)
