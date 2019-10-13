@@ -13,9 +13,8 @@
         android:id="@+id/button_SP"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="226dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="201dp"
-        android:layout_marginBottom="19dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/rounded_corners"
         android:fontFamily="casual"
         android:text="Single Player"
@@ -23,46 +22,30 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button_MP"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_MP"
         android:layout_width="226dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="19dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/rounded_corners"
         android:fontFamily="casual"
         android:text="Multiplayer"
         android:textAllCaps="true"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button_OPT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_SP" />
-
-    <Button
-        android:id="@+id/button_OPT"
-        android:layout_width="226dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="19dp"
-        android:background="@drawable/rounded_corners"
-        android:fontFamily="casual"
-        android:text="Options"
-        android:textSize="20dp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button_ABT"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_MP" />
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_ABT"
         android:layout_width="226dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="117dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="192dp"
         android:background="@drawable/rounded_corners"
         android:fontFamily="casual"
         android:text="About"
@@ -71,8 +54,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_OPT" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/Title_MainMenu"
@@ -88,5 +71,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/audioOn"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/audioon" />
+
+    <ImageView
+        android:id="@+id/audioOff"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/audiooff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
