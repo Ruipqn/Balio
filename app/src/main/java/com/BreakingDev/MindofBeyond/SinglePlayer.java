@@ -63,6 +63,7 @@ public class SinglePlayer extends AppCompatActivity {
     //probabilities
     private double p_nothing;
     private double p_dir;
+    private double p_gen_new_dir;
     private double p_tp;
     private double p_slow;
     private double p_speed;
@@ -78,13 +79,13 @@ public class SinglePlayer extends AppCompatActivity {
     private TextView score_text;
 
     //settings
-    private Double[][] settings  = { //[[p_nothing, p_dir, p_tp]]
-            { 0.7,0.3,0.0},//10
-            { 0.6,0.4,0.0},//20
-            { 0.55,0.45,0.0},//30
-            { 0.52,0.48,0.0},
-            { 0.5,0.5,0.0},
-            { 0.4,0.6,0.0} };;//70
+    private Double[][] settings  = { //[[p_nothing, p_dir, p_gen_new_dir, p_tp]]
+            { 0.8,0.2,0.0,0.0},//10
+            { 0.69,0.3,0.01,0.0},//20
+            { 0.63,0.35,0.02,0.0},//30
+            { 0.595,0.38,0.025,0.0},//40
+            { 0.57,0.40,0.03,0.0},//50
+            { 0.56,0.41,0.03,0.0} };;//70
 
     //cicle of actions
 
@@ -134,7 +135,7 @@ public class SinglePlayer extends AppCompatActivity {
 
     public void gameStart(){
         //define Level 1
-        level.setL(1);
+        level.setL(70);
         lives = 3;
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
@@ -235,32 +236,47 @@ public class SinglePlayer extends AppCompatActivity {
 
         p_nothing = settings_used[0];
         p_dir = settings_used[1];
-        p_tp = settings_used[2];
+        p_gen_new_dir = settings_used[2];
+        p_tp = settings_used[3];
         p_slow = 0;
         p_speed = 0;
 
         if (g_level<10){
             rm.setBaseRotation(10);
-            action_period  = 200;
+            action_period  = 60;
             vel_multiplier= 0.2 + 0.05 * g_level;
         }
         else if (g_level<20){
             rm.setBaseRotation(12);
             action_period  = 40;
             vel_multiplier= 0.2 + 0.05 * 9  +0.1*(g_level-9);
-            pm.setStarting_angle(30-g_level);
+            pm.setStarting_angle(g_level+15);
         }
         else if (g_level<30){
             rm.setBaseRotation(15);
-            action_period  = 20;
+            action_period  = 25;
             vel_multiplier= 0.2 + 0.05 * 9 +0.1*(20-9);
-            pm.setStarting_angle(30-g_level);
+            pm.setStarting_angle(g_level+15);
         }
         else if (g_level<40){
             rm.setBaseRotation(20);
+            action_period  = 15;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(23-9) ;
+            pm.setStarting_angle(45);
+        }
+
+        else if (g_level<50){
+            rm.setBaseRotation(20);
             action_period  = 10;
-            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(20-9) ;
-            pm.setStarting_angle(0);
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(25-9) ;
+            pm.setStarting_angle(45);
+        }
+
+        else {
+            rm.setBaseRotation(20);
+            action_period  = 5;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(30-9) + 0.007*(g_level-50) ;
+            pm.setStarting_angle(45);
         }
 
         final double prob_change_direction = 0.4;
@@ -327,7 +343,13 @@ public class SinglePlayer extends AppCompatActivity {
         else if(rnd-p_nothing<p_dir){
             velocity = rm.changeRotation(velocity);
         }
-        else if(rnd-p_nothing-p_dir<p_tp){
+        else if(rnd-p_nothing-p_dir<p_gen_new_dir){
+            List<Double> pos = new ArrayList<>();
+            pos.add((double)ball.getX());
+            pos.add((double)ball.getY());
+            velocity = pm.genDirectionVector(pos);
+        }
+        else if(rnd-p_nothing-p_dir-p_gen_new_dir<p_tp){
             List<Double> pos = pm.genStart();
             ballX = pos.get(0);
             ballY = pos.get(1);
@@ -355,6 +377,7 @@ public class SinglePlayer extends AppCompatActivity {
             //create new starting point
 
             List<Double> pos = pm.genStart();
+
             ballX = pos.get(0);
             ballY = pos.get(1);
             //create random velocity vector
