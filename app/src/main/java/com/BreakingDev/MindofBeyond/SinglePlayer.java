@@ -203,7 +203,6 @@ public class SinglePlayer extends AppCompatActivity {
         life1.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life2.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life3.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
-        ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
 
         //ball.getBackground().setColorFilter(0xf0f0f0,android.graphics.PorterDuff.Mode.SRC_IN);
         //ball.setColorFilter(0x111111,android.graphics.PorterDuff.Mode.SRC_IN);

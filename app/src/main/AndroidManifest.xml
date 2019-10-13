@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Fullscreen">
-        <activity android:name=".OptionsMenu"></activity>
+        <activity android:name=".multiplayer_gameovers"></activity>
+        <activity android:name=".OptionsMenu" />
         <activity android:name=".AboutMenu" />
         <activity android:name=".Menu_multiplayer" />
         <activity android:name=".MainActivity">
