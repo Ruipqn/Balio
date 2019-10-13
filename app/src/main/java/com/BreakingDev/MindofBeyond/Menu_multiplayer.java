@@ -1,20 +1,16 @@
 package com.BreakingDev.MindofBeyond;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView ;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.graphics.Color;
-import android.view.View ;
 
-
-
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +25,7 @@ public class Menu_multiplayer extends AppCompatActivity {
     EditText input;
     Button btAdd;
     Button cor;
+    Button start_game;
     int addOk=1;
     int count = 1;
 
@@ -86,6 +83,21 @@ public class Menu_multiplayer extends AppCompatActivity {
             }
         });
 
+        start_game = findViewById(R.id.buttonStartMP);
+        start_game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listV.getAdapter().getCount() != 0) {
+                    openMultiplayer();
+                }
+            }
+        });
+
+    }
+
+    public void openMultiplayer() {
+        Intent intent = new Intent(this, Multiplayer.class);
+        startActivity(intent);
     }
 
     public void opencolorpicker(){
