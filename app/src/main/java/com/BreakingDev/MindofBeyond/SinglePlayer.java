@@ -1,8 +1,17 @@
 package com.BreakingDev.MindofBeyond;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +27,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import org.w3c.dom.Text;
 
@@ -182,7 +194,20 @@ public class SinglePlayer extends AppCompatActivity {
         //if lost, restart
     }
     public void runLevel(int g_level){
+        //ball.setImageResource(R.drawable.myball1);
 
+
+        String ball_color = "#FF333232";
+        ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
+        life1.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
+        life2.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
+        life3.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
+        ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
+
+
+
+        //ball.getBackground().setColorFilter(0xf0f0f0,android.graphics.PorterDuff.Mode.SRC_IN);
+        //ball.setColorFilter(0x111111,android.graphics.PorterDuff.Mode.SRC_IN);
         timer = new Timer();
         //update lives
         if(lives ==3){
@@ -246,6 +271,7 @@ public class SinglePlayer extends AppCompatActivity {
         p_speed = 0;
 
         if (g_level<10){
+
             //app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
             action_period  = 60;
