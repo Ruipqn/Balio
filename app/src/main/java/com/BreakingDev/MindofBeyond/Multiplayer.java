@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -194,7 +195,6 @@ public class Multiplayer extends AppCompatActivity {
                 current_player.addLives();
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
-
             }
         });
         app_layer.setOnClickListener(new View.OnClickListener(){
@@ -202,6 +202,7 @@ public class Multiplayer extends AppCompatActivity {
             public void onClick(View v){
                 timer.cancel();
                 actionTimer.cancel();
+
                 //click on screen
                 current_player.removeLives();
                 if (current_player.getLives()==0){
@@ -224,6 +225,18 @@ public class Multiplayer extends AppCompatActivity {
                 else{
                     retry.setVisibility(View.VISIBLE);
                     back.setVisibility(View.VISIBLE);
+                    /*
+                    current_player = all_players_aux.get(0);
+                    changeBall();
+                    ball.setX(screenWidth/2);
+                    ball.setY(screenHeigh/5);
+
+                     */
+                    String name = all_players_aux.get(0).getName();
+                    String message = "Congratulations\n" + name+ " !!!";
+                    winner.setText(message);
+                    winner.setVisibility(View.VISIBLE);
+
                     app_layer.setEnabled(false);
                     ball.setEnabled(false);
                     retry.setEnabled(true);
@@ -237,10 +250,6 @@ public class Multiplayer extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //click on retry
-                String name = all_players_aux.get(0).getName();
-                String message = "Congratulations, " + name+ " !!!";
-                winner.setText(message);
-                winner.setVisibility(View.VISIBLE);
                 retry.setVisibility(View.INVISIBLE);
                 back.setVisibility(View.INVISIBLE);
                 //todo desativar clicks
