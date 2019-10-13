@@ -2,7 +2,10 @@ package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +36,7 @@ public class Menu_multiplayer extends AppCompatActivity {
     private String color;
     private int numColors = 10;
     ArrayList<String>colors_aux = new ArrayList<>();
+    private int posToRem;
 
 
     @Override
@@ -67,6 +71,31 @@ public class Menu_multiplayer extends AppCompatActivity {
             }
         }) ;
         editText=(EditText)findViewById(R.id.newPlayerInput);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(color != null && editText.getText().toString().length()>0)
+                    btAdd.setVisibility(View.VISIBLE); //To set visible
+                else
+                    btAdd.setVisibility(View.INVISIBLE); //To set visible
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+
         btAdd=(Button)findViewById(R.id.btAdd);
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +105,23 @@ public class Menu_multiplayer extends AppCompatActivity {
                     String counter = String.valueOf(count);
                     count += 1;
                     String newItem = editText.getText().toString();
-                    String result = counter + ". " + newItem;
+                    if (newItem.length()>0){
+                        String result = counter + ". " + newItem;
 
-                    Player player = new Player(newItem, getColor());
-                    all_players.add(player);
+                        Player player = new Player(newItem, getColor());
+                        all_players.add(player);
 
-                    // add result to arraylist
-                    itemList.add(result);
+                        // add result to arraylist
+                        itemList.add(result);
 
-                    editText.getText().clear();
-                    addOk=0;
-                    if(count ==3)start_game.setVisibility(View.VISIBLE); //To set visible
+                        editText.getText().clear();
+                        addOk=0;
+                        if(count ==3)start_game.setVisibility(View.VISIBLE); //To set visible
+                        removeColor(posToRem);
+                        color = null;
+                        btAdd.setVisibility(View.INVISIBLE); //To set visible
 
-                    btAdd.setVisibility(View.INVISIBLE); //To set visible
+                    }
 
                 }
                 // notify listview of data changed
@@ -147,9 +180,10 @@ public class Menu_multiplayer extends AppCompatActivity {
                     @Override
                     public void onChooseColor(int position, int color) {
                         addOk = 1;
-                        removeColor(position) ;
+                        posToRem = position;
                         setColor(color);
-                        btAdd.setVisibility(View.VISIBLE); //To set visible
+                        if(editText.getText().toString().length()>0)
+                            btAdd.setVisibility(View.VISIBLE); //To set visible
 
                     }
 
