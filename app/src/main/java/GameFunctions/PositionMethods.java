@@ -11,7 +11,7 @@ public class PositionMethods {
     private int screenHeigh;
     private double ballWidth;
     private double ballHeight;
-    private int starting_angle = 30;
+    private int starting_angle = 20;
 
 
     public PositionMethods(int screenWidth, int screenHeigh, double ballWidth, double ballHeight) {
@@ -56,18 +56,18 @@ public class PositionMethods {
         if (rnd <= 0.25) {
             //generate on top wall
             y = -236;
-            x = Math.floor(randomNumber() * screenWidth);
+            x = 200 + Math.floor(randomNumber() * (screenWidth-400));
         } else if (0.25 < rnd && rnd <= 0.5) {
             //generate on right wall
-            y = Math.floor(randomNumber() * screenHeigh);
+            y = 200 + Math.floor(randomNumber() * (screenHeigh-400));
             x = screenWidth;// - ballWidth;
         } else if (0.5 < rnd && rnd <= 0.75) {
             //generate on bottom wall
             y = screenHeigh;// - ballHeight;
-            x = Math.floor(randomNumber() * screenWidth);
+            x = 200 + (Math.floor(randomNumber() * (screenWidth-400)));
         } else {
             //generate on left wall
-            y = Math.floor(randomNumber() * screenHeigh);
+            y = 200 + Math.floor(randomNumber() * (screenHeigh-400));
             x = -236;
         }
 
