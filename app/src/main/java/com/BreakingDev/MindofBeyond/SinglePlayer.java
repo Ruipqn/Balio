@@ -83,11 +83,11 @@ public class SinglePlayer extends AppCompatActivity {
     //settings
     private Double[][] settings  = { //[[p_nothing, p_dir, p_tp]]
             { 0.7,0.3,0.0},//10
-            { 0.3,0.7,0.0},//20
-            { 0.2,0.8,0.0},//30
-            { 0.1,0.9,0.0},
-            { 0.0,1.0,0.0},
-            { 0.0,1.0,0.0} };;//70
+            { 0.6,0.4,0.0},//20
+            { 0.55,0.45,0.0},//30
+            { 0.52,0.48,0.0},
+            { 0.5,0.5,0.0},
+            { 0.4,0.6,0.0} };;//70
 
     //cicle of actions
 
@@ -246,24 +246,26 @@ public class SinglePlayer extends AppCompatActivity {
         if (g_level<10){
             app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
-            action_period  = 50;
+            action_period  = 200;
             vel_multiplier= 0.2 + 0.05 * g_level;
         }
         else if (g_level<20){
             rm.setBaseRotation(12);
             action_period  = 40;
-
-            vel_multiplier= 0.2 + 0.05 * 9  +0.3*(g_level-9) ;
+            vel_multiplier= 0.2 + 0.05 * 9  +0.1*(g_level-9);
+            pm.setStarting_angle(30-g_level);
         }
         else if (g_level<30){
             rm.setBaseRotation(15);
             action_period  = 20;
-            vel_multiplier= 0.2 + 0.05 * 9 +0.3*(20-9) ;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(20-9);
+            pm.setStarting_angle(30-g_level);
         }
         else if (g_level<40){
             rm.setBaseRotation(20);
             action_period  = 10;
-            vel_multiplier= 0.2 + 0.05 * 9 +0.3*(20-9) ;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(20-9) ;
+            pm.setStarting_angle(0);
         }
 
         final double prob_change_direction = 0.4;
