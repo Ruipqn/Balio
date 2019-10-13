@@ -244,7 +244,7 @@ public class SinglePlayer extends AppCompatActivity {
         p_speed = 0;
 
         if (g_level<10){
-            app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
+            //app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
             action_period  = 200;
             vel_multiplier= 0.2 + 0.05 * g_level;
