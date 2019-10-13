@@ -11,7 +11,7 @@ public class PositionMethods {
     private int screenHeigh;
     private double ballWidth;
     private double ballHeight;
-    private int starting_angle = 35;
+    private int starting_angle = 20;
 
 
     public PositionMethods(int screenWidth, int screenHeigh, double ballWidth, double ballHeight) {
@@ -33,9 +33,6 @@ public class PositionMethods {
         double x = Math.cos(new_angle) * center_direction_x / Math.cos(angle_to_center);
         double y = Math.sin(new_angle) * center_direction_y / Math.sin(angle_to_center);
 
-        x = x / (x + y);
-        y = y / (x + y);
-
         double length = Math.sqrt(x*x + y*y);
 
         if(length > 0){
@@ -48,7 +45,6 @@ public class PositionMethods {
         vector.add(x);
         vector.add(y);
 
-        //Log.e("TEST",Double.toString(Math.sqrt(x*x + y*y)));
         return vector;
     }
 
@@ -56,24 +52,23 @@ public class PositionMethods {
         double rnd = randomNumber();
         double x;
         double y;
-        double start_pos;
 
         if (rnd <= 0.25) {
             //generate on top wall
-            y = -ballHeight;
-            x = Math.floor(randomNumber() * screenWidth);
+            y = -236;
+            x = 200 + Math.floor(randomNumber() * (screenWidth-400));
         } else if (0.25 < rnd && rnd <= 0.5) {
             //generate on right wall
-            y = Math.floor(randomNumber() * screenHeigh);
-            x = screenWidth - ballWidth;
+            y = 200 + Math.floor(randomNumber() * (screenHeigh-400));
+            x = screenWidth;// - ballWidth;
         } else if (0.5 < rnd && rnd <= 0.75) {
             //generate on bottom wall
-            y = screenHeigh - ballHeight;
-            x = Math.floor(randomNumber() * screenWidth);
+            y = screenHeigh;// - ballHeight;
+            x = 200 + (Math.floor(randomNumber() * (screenWidth-400)));
         } else {
             //generate on left wall
-            y = Math.floor(randomNumber() * screenHeigh);
-            x = -ballWidth;
+            y = 200 + Math.floor(randomNumber() * (screenHeigh-400));
+            x = -236;
         }
 
         List<Double> array = new ArrayList<>(2);
@@ -97,5 +92,9 @@ public class PositionMethods {
 
     private double randomNumber(){
         return Math.random();
+    }
+
+    public void setStarting_angle(int starting_angle) {
+        this.starting_angle = starting_angle;
     }
 }

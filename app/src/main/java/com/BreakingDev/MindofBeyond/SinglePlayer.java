@@ -1,7 +1,9 @@
 package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -14,8 +16,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,7 @@ public class SinglePlayer extends AppCompatActivity {
     private LinearLayout app_layer;
     //image
     private ImageView ball;
+    private ImageView background;
 
     //position
     private double ballX;
@@ -60,19 +66,29 @@ public class SinglePlayer extends AppCompatActivity {
     //probabilities
     private double p_nothing;
     private double p_dir;
+    private double p_gen_new_dir;
     private double p_tp;
     private double p_slow;
     private double p_speed;
     private int action_period;
 
+    //lifes
+    private int lives;
+    private ImageView life1;
+    private ImageView life2;
+    private ImageView life3;
+
+    //score
+    private TextView score_text;
+
     //settings
-    private Double[][] settings  = { //[[p_nothing, p_dir, p_tp]]
-            { 0.7,0.3,0.0},//10
-            { 0.3,0.7,0.0},//20
-            { 0.2,0.8,0.0},//30
-            { 0.1,0.9,0.0},
-            { 0.0,1.0,0.0},
-            { 0.0,1.0,0.0} };;//70
+    private Double[][] settings  = { //[[p_nothing, p_dir, p_gen_new_dir, p_tp]]
+            { 0.8,0.2,0.0,0.0},//10
+            { 0.69,0.3,0.01,0.0},//20
+            { 0.63,0.35,0.02,0.0},//30
+            { 0.595,0.38,0.025,0.0},//40
+            { 0.57,0.40,0.03,0.0},//50
+            { 0.56,0.41,0.03,0.0} };;//70
 
     //cicle of actions
 
@@ -85,8 +101,9 @@ public class SinglePlayer extends AppCompatActivity {
 
         ball = (ImageView) findViewById(R.id.ball);
         app_layer = (LinearLayout) findViewById(R.id.Layout);
-        //get screen size
+        background = (ImageView) findViewById(R.id.background);
 
+        //get screen size
         WindowManager wm = getWindowManager();
         Display disp = wm.getDefaultDisplay();
         Point size = new Point();
@@ -95,9 +112,13 @@ public class SinglePlayer extends AppCompatActivity {
         screenHeigh = size.y;
 
         pm = new PositionMethods(screenWidth, screenHeigh, ball.getWidth(), ball.getHeight());
-
         rm = new RotationMethods();
 
+        life1 = (ImageView) findViewById(R.id.life1);
+        life2 = (ImageView) findViewById(R.id.life2);
+        life3 = (ImageView) findViewById(R.id.life3);
+
+        score_text = (TextView) findViewById(R.id.score);
         //Start the game
         gameStart();
 
@@ -118,7 +139,8 @@ public class SinglePlayer extends AppCompatActivity {
 
     public void gameStart(){
         //define Level 1
-        level.setL(1);
+        level.setL(70);
+        lives = 3;
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
 
@@ -130,7 +152,9 @@ public class SinglePlayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
-
+                if (lives<3){
+                    lives+=1;
+                }
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
             }
@@ -138,7 +162,17 @@ public class SinglePlayer extends AppCompatActivity {
         app_layer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                timer.cancel();
+                actionTimer.cancel();
                 //click on screen
+                if(lives >1){
+                    lives -= 1;
+                }
+                else{
+                    lives =3;
+                    level.setL(0);
+                }
+                runLevel(level.getL());
             }
         });
 
@@ -150,6 +184,28 @@ public class SinglePlayer extends AppCompatActivity {
     public void runLevel(int g_level){
 
         timer = new Timer();
+        //update lives
+        if(lives ==3){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.VISIBLE);
+            life3.setVisibility(View.VISIBLE);
+        }else if(lives ==2){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.VISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }else if(lives ==1){
+            life1.setVisibility(View.VISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }else{
+            life1.setVisibility(View.INVISIBLE);
+            life2.setVisibility(View.INVISIBLE);
+            life3.setVisibility(View.INVISIBLE);
+        }
+        //update score
+        String score_string= "Score: " + g_level;
+        score_text.setText(score_string);
+
 
         ballX = 100000f;
         ballY= 100000f;
@@ -184,30 +240,48 @@ public class SinglePlayer extends AppCompatActivity {
 
         p_nothing = settings_used[0];
         p_dir = settings_used[1];
-        p_tp = settings_used[2];
+        p_gen_new_dir = settings_used[2];
+        p_tp = settings_used[3];
         p_slow = 0;
         p_speed = 0;
 
         if (g_level<10){
+            //app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
-            action_period  = 50;
+            action_period  = 60;
             vel_multiplier= 0.2 + 0.05 * g_level;
         }
         else if (g_level<20){
             rm.setBaseRotation(12);
             action_period  = 40;
-
-            vel_multiplier= 0.2 + 0.05 * 9  +0.3*(g_level-9) ;
+            vel_multiplier= 0.2 + 0.05 * 9  +0.1*(g_level-9);
+            pm.setStarting_angle(g_level+15);
         }
         else if (g_level<30){
             rm.setBaseRotation(15);
-            action_period  = 20;
-            vel_multiplier= 0.2 + 0.05 * 9 +0.3*(20-9) ;
+            action_period  = 25;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(20-9);
+            pm.setStarting_angle(g_level+15);
         }
         else if (g_level<40){
             rm.setBaseRotation(20);
+            action_period  = 15;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(23-9) ;
+            pm.setStarting_angle(45);
+        }
+
+        else if (g_level<50){
+            rm.setBaseRotation(20);
             action_period  = 10;
-            vel_multiplier= 0.2 + 0.05 * 9 +0.3*(20-9) ;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(25-9) ;
+            pm.setStarting_angle(45);
+        }
+
+        else {
+            rm.setBaseRotation(20);
+            action_period  = 5;
+            vel_multiplier= 0.2 + 0.05 * 9 +0.1*(30-9) + 0.007*(g_level-50) ;
+            pm.setStarting_angle(45);
         }
 
         final double prob_change_direction = 0.4;
@@ -274,7 +348,13 @@ public class SinglePlayer extends AppCompatActivity {
         else if(rnd-p_nothing<p_dir){
             velocity = rm.changeRotation(velocity);
         }
-        else if(rnd-p_nothing-p_dir<p_tp){
+        else if(rnd-p_nothing-p_dir<p_gen_new_dir){
+            List<Double> pos = new ArrayList<>();
+            pos.add((double)ball.getX());
+            pos.add((double)ball.getY());
+            velocity = pm.genDirectionVector(pos);
+        }
+        else if(rnd-p_nothing-p_dir-p_gen_new_dir<p_tp){
             List<Double> pos = pm.genStart();
             ballX = pos.get(0);
             ballY = pos.get(1);
@@ -302,6 +382,7 @@ public class SinglePlayer extends AppCompatActivity {
             //create new starting point
 
             List<Double> pos = pm.genStart();
+
             ballX = pos.get(0);
             ballY = pos.get(1);
             //create random velocity vector
