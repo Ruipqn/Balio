@@ -76,17 +76,17 @@
         android:id="@+id/audioOn"
         android:layout_width="27dp"
         android:layout_height="27dp"
-        app:srcCompat="@drawable/audioon"
-        tools:layout_editor_absoluteX="318dp"
-        tools:layout_editor_absoluteY="688dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/audioon" />
 
     <ImageView
         android:id="@+id/audioOff"
         android:layout_width="27dp"
         android:layout_height="27dp"
         android:visibility="invisible"
-        app:srcCompat="@drawable/audiooff"
-        tools:layout_editor_absoluteX="318dp"
-        tools:layout_editor_absoluteY="688dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/audiooff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
