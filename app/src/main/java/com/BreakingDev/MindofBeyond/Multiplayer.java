@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +45,10 @@ public class Multiplayer extends AppCompatActivity {
     private ImageView live2;
     private ImageView live3;
 
+    //buttons
+    private ImageView retry;
+    private ImageView back;
+
     //position
     private double ballX;
     private double ballY;
@@ -62,6 +67,7 @@ public class Multiplayer extends AppCompatActivity {
 
     private Player current_player;
     private ArrayList<Player> all_players;
+    private ArrayList<Player> all_players_aux;
 
     //probabilities
     private double p_nothing;
@@ -98,6 +104,9 @@ public class Multiplayer extends AppCompatActivity {
         live2 = (ImageView) findViewById(R.id.life2);
         live3 = (ImageView) findViewById(R.id.life3);
 
+        retry  = (ImageView) findViewById(R.id.retry);
+        back  = (ImageView) findViewById(R.id.back);
+
         //get screen size
         WindowManager wm = getWindowManager();
         Display disp = wm.getDefaultDisplay();
@@ -131,6 +140,7 @@ public class Multiplayer extends AppCompatActivity {
             Player pl = new Player(new_player_name, new_player_color);
             all_players.add(pl);
         }
+        all_players_aux = new ArrayList<>(all_players);
 
         //Start the game
         gameStart();
@@ -152,10 +162,13 @@ public class Multiplayer extends AppCompatActivity {
 
     public void gameStart(){
         //define Level 1
+
+        all_players_aux = new ArrayList<>(all_players);
+
         level.setL(0);
 
-        int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
-        current_player = all_players.get(player_select);
+        int player_select = (int) Math.round(Math.random() * (all_players_aux.size() - 1));
+        current_player = all_players_aux.get(player_select);
         changeBall();
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
@@ -168,8 +181,10 @@ public class Multiplayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
+                current_player.addLives();
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
+
             }
         });
         app_layer.setOnClickListener(new View.OnClickListener(){
@@ -178,14 +193,43 @@ public class Multiplayer extends AppCompatActivity {
                 timer.cancel();
                 actionTimer.cancel();
                 //click on screen
+                current_player.removeLives();
+                if (current_player.getLives()==0){
+                    all_players_aux.remove(current_player);
 
-                for (Player x : all_players) {
+                    int player_select = (int) Math.round(Math.random() * (all_players_aux.size() - 1));
+                    current_player = all_players_aux.get(player_select);
+                    changeBall();
+
+                }
+
+                for (Player x : all_players_aux) {
                     if (!x.equals(current_player)) {
                         x.setPoints();
                     }
                 }
+                if(all_players_aux.size()>1){
+                    runLevel(level.getL());
+                }
+                else{
+                    retry.setVisibility(View.VISIBLE);
+                    back.setVisibility(View.VISIBLE);
+
+                }
 
                 // pop_up restart button and go to menu button plus scores
+            }
+        });
+        retry.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //click on retry
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //click on back
             }
         });
 
@@ -220,9 +264,9 @@ public class Multiplayer extends AppCompatActivity {
 
         Player selected_player = current_player;
 
-        while (selected_player.equals(current_player)) {
-            int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
-            current_player = all_players.get(player_select);
+        while (selected_player.equals(current_player) & selected_player.getLives()!= 0) {
+            int player_select = (int) Math.round(Math.random() * (all_players_aux.size() - 1));
+            current_player = all_players_aux.get(player_select);
         }
 
         changeBall();
@@ -386,8 +430,8 @@ public class Multiplayer extends AppCompatActivity {
             //create new starting point
 
             if (Math.random() < 0.4) {
-                int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
-                current_player = all_players.get(player_select);
+                int player_select = (int) Math.round(Math.random() * (all_players_aux.size() - 1));
+                current_player = all_players_aux.get(player_select);
                 changeBall();
             }
 

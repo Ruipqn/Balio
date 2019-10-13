@@ -35,11 +35,14 @@ public class Player {
     }
 
     public void addLives() {
-        this.lives += 1;
+        if (this.lives <3){
+            this.lives += 1;
+        }
     }
-
     public void removeLives() {
-        this.lives -= 1;
+        if (this.lives >0){
+            this.lives -= 1;
+        }
     }
 
     public void resetLives() {
