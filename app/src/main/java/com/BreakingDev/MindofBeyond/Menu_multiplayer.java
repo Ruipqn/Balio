@@ -116,7 +116,7 @@ public class Menu_multiplayer extends AppCompatActivity {
         final ColorPicker colorPicker = new ColorPicker(this);
         ArrayList<String>colors = new ArrayList<>();
         colors.add("#F94444");
-        colors.add("#eeb13e");
+        colors.add("#FF4500");
         colors.add("#276ccc");
         colors.add("#FFD555");
         colors.add("#d6ff00");
