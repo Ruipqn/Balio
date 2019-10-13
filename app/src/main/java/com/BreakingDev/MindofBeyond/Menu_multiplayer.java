@@ -2,7 +2,6 @@ package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -15,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import GameFunctions.Player;
 import petrov.kristiyan.colorpicker.ColorPicker;
@@ -29,10 +27,10 @@ public class Menu_multiplayer extends AppCompatActivity {
     Button btAdd;
     Button cor;
     Button start_game;
-    List<Player> all_players;
+    ArrayList<Player> all_players;
     int addOk=1;
     int count = 1;
-    private int color;
+    private String color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +96,7 @@ public class Menu_multiplayer extends AppCompatActivity {
         start_game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listV.getAdapter().getCount() != 0) {
+                if (listV.getAdapter().getCount() > 1) {
                     openMultiplayer();
                 }
             }
@@ -108,7 +106,13 @@ public class Menu_multiplayer extends AppCompatActivity {
 
     public void openMultiplayer() {
         Intent intent = new Intent(this, Multiplayer.class);
-        intent.putExtra("all_players", (Parcelable) all_players);
+        Integer counter = 0;
+        for (Player x : all_players) {
+            counter += 1;
+            intent.putExtra(counter.toString() + "_name", x.getName());
+            intent.putExtra(counter.toString() + "_color", x.getColor());
+        }
+        intent.putExtra("counter", counter.toString());
         startActivity(intent);
     }
 
@@ -145,12 +149,12 @@ public class Menu_multiplayer extends AppCompatActivity {
                 .show();
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
-        this.color = color;
+    public void setColor(Integer color) {
+        this.color = color.toString();
     }
 }
 
