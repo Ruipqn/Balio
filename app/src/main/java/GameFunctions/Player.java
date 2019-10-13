@@ -3,10 +3,10 @@ package GameFunctions;
 public class Player {
 
     private String name;
-    private String color;
+    private int color;
     private int points;
 
-    public Player(String name, String color) {
+    public Player(String name, int color) {
         this.name = name;
         this.color = color;
         this.points = 0;
@@ -16,7 +16,7 @@ public class Player {
         this.points += 1;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
