@@ -63,9 +63,9 @@
                 android:text="WINNER:"
                 android:textAlignment="center"
                 android:textColor="#FF9100"
-                android:textSize="100sp"
+                android:textSize="50sp"
                 android:textStyle="bold"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

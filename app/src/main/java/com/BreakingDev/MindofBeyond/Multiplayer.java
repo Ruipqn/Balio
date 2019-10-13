@@ -222,11 +222,12 @@ public class Multiplayer extends AppCompatActivity {
                     runLevel(level.getL());
                 }
                 else{
-
                     retry.setVisibility(View.VISIBLE);
                     back.setVisibility(View.VISIBLE);
                     app_layer.setEnabled(false);
                     ball.setEnabled(false);
+                    retry.setEnabled(true);
+                    back.setEnabled(true);
                 }
 
                 // pop_up restart button and go to menu button plus scores
@@ -245,9 +246,12 @@ public class Multiplayer extends AppCompatActivity {
                 //todo desativar clicks
                 app_layer.setEnabled(true);
                 ball.setEnabled(true);
+                retry.setEnabled(false);
+                back.setEnabled(false);
                 gameStart();
             }
         });
+
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
