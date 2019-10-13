@@ -1,34 +1,25 @@
 package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
-
-import android.text.Layout;
-import android.util.Log;
-
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import GameFunctions.Level;
+import GameFunctions.Player;
 import GameFunctions.PositionMethods;
 import GameFunctions.RotationMethods;
 
@@ -63,6 +54,9 @@ public class Multiplayer extends AppCompatActivity {
     private PositionMethods pm;
     private RotationMethods rm;
 
+    private Player current_player;
+    private List<Player> all_players;
+
     //probabilities
     private double p_nothing;
     private double p_dir;
@@ -77,9 +71,6 @@ public class Multiplayer extends AppCompatActivity {
     private ImageView life1;
     private ImageView life2;
     private ImageView life3;
-
-    //score
-    private TextView score_text;
 
     //settings
     private Double[][] settings  = { //[[p_nothing, p_dir, p_gen_new_dir, p_tp]]
@@ -118,7 +109,6 @@ public class Multiplayer extends AppCompatActivity {
         life2 = (ImageView) findViewById(R.id.life2);
         life3 = (ImageView) findViewById(R.id.life3);
 
-        score_text = (TextView) findViewById(R.id.score);
         //Start the game
         gameStart();
 
@@ -139,8 +129,10 @@ public class Multiplayer extends AppCompatActivity {
 
     public void gameStart(){
         //define Level 1
-        level.setL(70);
-        lives = 3;
+        level.setL(0);
+
+        int player_select = (int) Math.round(Math.random() * all_players.size());
+        current_player = all_players.get(player_select);
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
 
@@ -152,9 +144,6 @@ public class Multiplayer extends AppCompatActivity {
             public void onClick(View v){
                 //click on ball
                 timer.cancel();
-                if (lives<3){
-                    lives+=1;
-                }
                 level.setL(level.getL()+1);
                 runLevel(level.getL());
             }
@@ -165,14 +154,14 @@ public class Multiplayer extends AppCompatActivity {
                 timer.cancel();
                 actionTimer.cancel();
                 //click on screen
-                if(lives >1){
-                    lives -= 1;
+
+                for (Player x : all_players) {
+                    if (!x.equals(current_player)) {
+                        x.setPoints();
+                    }
                 }
-                else{
-                    lives =3;
-                    level.setL(0);
-                }
-                runLevel(level.getL());
+
+                // pop_up restart button and go to menu button plus scores
             }
         });
 
@@ -184,28 +173,6 @@ public class Multiplayer extends AppCompatActivity {
     public void runLevel(int g_level){
 
         timer = new Timer();
-        //update lives
-        if(lives ==3){
-            life1.setVisibility(View.VISIBLE);
-            life2.setVisibility(View.VISIBLE);
-            life3.setVisibility(View.VISIBLE);
-        }else if(lives ==2){
-            life1.setVisibility(View.VISIBLE);
-            life2.setVisibility(View.VISIBLE);
-            life3.setVisibility(View.INVISIBLE);
-        }else if(lives ==1){
-            life1.setVisibility(View.VISIBLE);
-            life2.setVisibility(View.INVISIBLE);
-            life3.setVisibility(View.INVISIBLE);
-        }else{
-            life1.setVisibility(View.INVISIBLE);
-            life2.setVisibility(View.INVISIBLE);
-            life3.setVisibility(View.INVISIBLE);
-        }
-        //update score
-        String score_string= "Score: " + g_level;
-        score_text.setText(score_string);
-
 
         ballX = 100000f;
         ballY= 100000f;
