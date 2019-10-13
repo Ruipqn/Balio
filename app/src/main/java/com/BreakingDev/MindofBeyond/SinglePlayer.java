@@ -199,7 +199,6 @@ public class SinglePlayer extends AppCompatActivity {
         String ball_color;
         if(g_level%10==0) {
             ball_color = "#A7A7A7";
-
         }
         else if (g_level%10==1){
             ball_color = "#b77231";
@@ -228,7 +227,6 @@ public class SinglePlayer extends AppCompatActivity {
         else {
             ball_color = "#808000";
         }
-
         ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life1.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life2.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
@@ -261,10 +259,7 @@ public class SinglePlayer extends AppCompatActivity {
         score_text.setText(score_string);
 
 
-        ballX = 100000f;
-        ballY= 100000f;
-        ball.setX((float)ballX);
-        ball.setY((float)ballY);
+
 
         try
         {
@@ -279,9 +274,11 @@ public class SinglePlayer extends AppCompatActivity {
 
         Double[] settings_used;
         //velocity
-        List<Double> pos = new ArrayList<>();
-        pos.add((double)ball.getX());
-        pos.add((double)ball.getY());
+        List<Double> pos = pm.genStart();
+        ballX = pos.get(0);
+        ballY = pos.get(1);
+        ball.setX((float)ballX);
+        ball.setY((float)ballY);
         velocity = pm.genDirectionVector(pos);
 
         //define what the level will be like p_nothing, p_dir, p_tp
