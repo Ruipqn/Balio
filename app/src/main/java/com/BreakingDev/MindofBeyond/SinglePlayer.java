@@ -132,7 +132,7 @@ public class SinglePlayer extends AppCompatActivity {
 
     public void gameStart(){
         //define Level 1
-        level.setL(1);
+        level.setL(0);
         lives = 3;
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
@@ -177,15 +177,33 @@ public class SinglePlayer extends AppCompatActivity {
     public void runLevel(int g_level){
         //ball.setImageResource(R.drawable.myball1);
 
-
-        String ball_color = "#FF333232";
+        String ball_color;
+        if (g_level % 10 == 0) {
+            ball_color = "#A7A7A7";
+        } else if (g_level % 10 == 1) {
+            ball_color = "#b77231";
+        } else if (g_level % 10 == 2) {
+            ball_color = "#FFD555";
+        } else if (g_level % 10 == 3) {
+            ball_color = "#d6ff00";
+        } else if (g_level % 10 == 4) {
+            ball_color = "#c303b1";
+        } else if (g_level % 10 == 5) {
+            ball_color = "#00F444";
+        } else if (g_level % 10 == 6) {
+            ball_color = "#fca4da";
+        } else if (g_level % 10 == 7) {
+            ball_color = "#F94444";
+        } else if (g_level % 10 == 8) {
+            ball_color = "#305eae";
+        } else {
+            ball_color = "#808000";
+        }
         ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life1.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life2.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life3.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
-
-
 
         //ball.getBackground().setColorFilter(0xf0f0f0,android.graphics.PorterDuff.Mode.SRC_IN);
         //ball.setColorFilter(0x111111,android.graphics.PorterDuff.Mode.SRC_IN);
@@ -213,10 +231,7 @@ public class SinglePlayer extends AppCompatActivity {
         score_text.setText(score_string);
 
 
-        ballX = 100000f;
-        ballY= 100000f;
-        ball.setX((float)ballX);
-        ball.setY((float)ballY);
+
 
         try
         {
@@ -231,9 +246,11 @@ public class SinglePlayer extends AppCompatActivity {
 
         Double[] settings_used;
         //velocity
-        List<Double> pos = new ArrayList<>();
-        pos.add((double)ball.getX());
-        pos.add((double)ball.getY());
+        List<Double> pos = pm.genStart();
+        ballX = pos.get(0);
+        ballY = pos.get(1);
+        ball.setX((float) ballX);
+        ball.setY((float) ballY);
         velocity = pm.genDirectionVector(pos);
 
         //define what the level will be like p_nothing, p_dir, p_tp

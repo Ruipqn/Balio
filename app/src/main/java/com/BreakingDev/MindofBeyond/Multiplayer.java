@@ -66,12 +66,6 @@ public class Multiplayer extends AppCompatActivity {
     private double p_speed;
     private int action_period;
 
-    //lifes
-    private int lives;
-    private ImageView life1;
-    private ImageView life2;
-    private ImageView life3;
-
     //settings
     private Double[][] settings  = { //[[p_nothing, p_dir, p_gen_new_dir, p_tp]]
             { 0.8,0.2,0.0,0.0},//10
