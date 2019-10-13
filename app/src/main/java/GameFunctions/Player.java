@@ -1,15 +1,13 @@
 package GameFunctions;
 
-import android.widget.ImageView;
-
 public class Player {
 
     private String name;
     private String color;
-    private ImageView ball;
+    private int ball;
     private int points;
 
-    public Player(String name, String color, ImageView ball) {
+    public Player(String name, String color, int ball) {
         this.name = name;
         this.color = color;
         this.ball = ball;
@@ -20,7 +18,7 @@ public class Player {
         this.points += 1;
     }
 
-    public ImageView getBall() {
+    public int getBall() {
         return ball;
     }
 
