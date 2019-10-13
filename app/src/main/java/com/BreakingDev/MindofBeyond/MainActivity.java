@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonMultiplayer;
     private Button singlePlayer;
+    private Button ButtonAbout;
+    private Button ButtonOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ButtonAbout = (Button) findViewById(R.id.button_ABT);
+        ButtonAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAboutActivity();
+            }
+        });
+
+        ButtonOptions = (Button) findViewById(R.id.button_OPT);
+        ButtonOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOptionsActivity();
+            }
+        });
+
     }
 
     public void openMultiplayerActivity(){
@@ -44,6 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void openSinglePlayerActivity() {
         Intent intent = new Intent(this, SinglePlayer.class);
+        startActivity(intent);
+    }
+
+    public void openAboutActivity() {
+        Intent intent = new Intent(this, AboutMenu.class);
+        startActivity(intent);
+    }
+
+
+    public void openOptionsActivity() {
+        Intent intent = new Intent(this, OptionsMenu.class);
         startActivity(intent);
     }
 
