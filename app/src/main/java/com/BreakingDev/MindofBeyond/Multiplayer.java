@@ -66,12 +66,6 @@ public class Multiplayer extends AppCompatActivity {
     private double p_speed;
     private int action_period;
 
-    //lifes
-    private int lives;
-    private ImageView life1;
-    private ImageView life2;
-    private ImageView life3;
-
     //settings
     private Double[][] settings  = { //[[p_nothing, p_dir, p_gen_new_dir, p_tp]]
             { 0.8,0.2,0.0,0.0},//10
@@ -105,9 +99,7 @@ public class Multiplayer extends AppCompatActivity {
         pm = new PositionMethods(screenWidth, screenHeigh, ball.getWidth(), ball.getHeight());
         rm = new RotationMethods();
 
-        life1 = (ImageView) findViewById(R.id.life1);
-        life2 = (ImageView) findViewById(R.id.life2);
-        life3 = (ImageView) findViewById(R.id.life3);
+        all_players = getIntent().getParcelableExtra("all_players");
 
         //Start the game
         gameStart();
@@ -174,8 +166,11 @@ public class Multiplayer extends AppCompatActivity {
 
         timer = new Timer();
 
-        ballX = 100000f;
-        ballY= 100000f;
+        List<Double> position = pm.genStart();
+
+        ballX = position.get(0);
+        ballY = position.get(1);
+
         ball.setX((float)ballX);
         ball.setY((float)ballY);
 
@@ -188,6 +183,14 @@ public class Multiplayer extends AppCompatActivity {
         catch(InterruptedException ex)
         {
             Thread.currentThread().interrupt();
+        }
+
+
+        Player selected_player = current_player;
+
+        while (selected_player.equals(current_player)) {
+            int player_select = (int) Math.round(Math.random() * all_players.size());
+            current_player = all_players.get(player_select);
         }
 
         Double[] settings_used;
@@ -347,6 +350,11 @@ public class Multiplayer extends AppCompatActivity {
         if (ballY + ball.getHeight() < 0 | ballY > screenHeigh |
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
+
+            if (Math.random() > 0.8) {
+                int player_select = (int) Math.round(Math.random() * all_players.size());
+                current_player = all_players.get(player_select);
+            }
 
             List<Double> pos = pm.genStart();
 

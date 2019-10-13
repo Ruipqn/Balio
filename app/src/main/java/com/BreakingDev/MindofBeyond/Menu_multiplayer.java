@@ -2,6 +2,7 @@ package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -14,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import GameFunctions.Player;
 import petrov.kristiyan.colorpicker.ColorPicker;
 
 public class Menu_multiplayer extends AppCompatActivity {
@@ -26,8 +29,10 @@ public class Menu_multiplayer extends AppCompatActivity {
     Button btAdd;
     Button cor;
     Button start_game;
+    List<Player> all_players;
     int addOk=1;
     int count = 1;
+    private int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,9 @@ public class Menu_multiplayer extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         String[] items={};
+
+        all_players = new ArrayList<>(4);
+
         itemList=new ArrayList<String>(Arrays.asList(items));
         adapter=new ArrayAdapter<>(this,R.layout.list_user,R.id.txtview,itemList);
         final ListView listV=(ListView)findViewById(R.id.listUsers);
@@ -51,12 +59,15 @@ public class Menu_multiplayer extends AppCompatActivity {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(count<=10 && addOk==1 ) {
+                if (count <= 4 && addOk == 1) {
 
                     String counter = String.valueOf(count);
                     count += 1;
                     String newItem = editText.getText().toString();
                     String result = counter + ". " + newItem;
+
+                    Player player = new Player(newItem, getColor());
+                    all_players.add(player);
 
                     // add result to arraylist
                     itemList.add(result);
@@ -97,6 +108,7 @@ public class Menu_multiplayer extends AppCompatActivity {
 
     public void openMultiplayer() {
         Intent intent = new Intent(this, Multiplayer.class);
+        intent.putExtra("all_players", (Parcelable) all_players);
         startActivity(intent);
     }
 
@@ -120,6 +132,7 @@ public class Menu_multiplayer extends AppCompatActivity {
                     @Override
                     public void onChooseColor(int position, int color) {
                         addOk = 1;
+                        setColor(color);
                         btAdd.setVisibility(View.VISIBLE); //To set visible
 
                     }
@@ -130,6 +143,14 @@ public class Menu_multiplayer extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }
 

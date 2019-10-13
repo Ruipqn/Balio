@@ -1,24 +1,11 @@
 package com.BreakingDev.MindofBeyond;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.Shape;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
-
-import android.text.Layout;
-import android.util.Log;
-
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,18 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import GameFunctions.Level;
 import GameFunctions.PositionMethods;
@@ -197,34 +178,25 @@ public class SinglePlayer extends AppCompatActivity {
         //ball.setImageResource(R.drawable.myball1);
 
         String ball_color;
-        if(g_level%10==0) {
+        if (g_level % 10 == 0) {
             ball_color = "#A7A7A7";
-        }
-        else if (g_level%10==1){
+        } else if (g_level % 10 == 1) {
             ball_color = "#b77231";
-        }
-        else if (g_level%10==2){
+        } else if (g_level % 10 == 2) {
             ball_color = "#FFD555";
-        }
-        else if (g_level%10==3){
+        } else if (g_level % 10 == 3) {
             ball_color = "#d6ff00";
-        }
-        else if (g_level%10==4){
+        } else if (g_level % 10 == 4) {
             ball_color = "#c303b1";
-        }
-        else if (g_level%10==5){
+        } else if (g_level % 10 == 5) {
             ball_color = "#00F444";
-        }
-        else if (g_level%10==6){
+        } else if (g_level % 10 == 6) {
             ball_color = "#fca4da";
-        }
-        else if (g_level%10==7){
+        } else if (g_level % 10 == 7) {
             ball_color = "#F94444";
-        }
-        else if (g_level%10==8){
+        } else if (g_level % 10 == 8) {
             ball_color = "#305eae";
-        }
-        else {
+        } else {
             ball_color = "#808000";
         }
         ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
@@ -277,8 +249,8 @@ public class SinglePlayer extends AppCompatActivity {
         List<Double> pos = pm.genStart();
         ballX = pos.get(0);
         ballY = pos.get(1);
-        ball.setX((float)ballX);
-        ball.setY((float)ballY);
+        ball.setX((float) ballX);
+        ball.setY((float) ballY);
         velocity = pm.genDirectionVector(pos);
 
         //define what the level will be like p_nothing, p_dir, p_tp
