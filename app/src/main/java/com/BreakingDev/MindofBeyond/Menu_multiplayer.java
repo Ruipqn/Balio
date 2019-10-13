@@ -90,14 +90,14 @@ public class Menu_multiplayer extends AppCompatActivity {
     public void opencolorpicker(){
         final ColorPicker colorPicker = new ColorPicker(this);
         ArrayList<String>colors = new ArrayList<>();
-        colors.add("#258174");
-        colors.add("#3C8D2F");
-        colors.add("#20714F");
-        colors.add("#6a3ab2");
-        colors.add("#323299");
-        colors.add("#800080");
-        colors.add("#b79716");
-        colors.add("#966d37");
+        colors.add("#F94444");
+        colors.add("#00F444");
+        colors.add("#276ccc");
+        colors.add("#FFD555");
+        colors.add("#d6ff00");
+        colors.add("#c303b1");
+        colors.add("#000000");
+        colors.add("#fca4da");
         colors.add("#b77231");
         colors.add("#808000");
         colorPicker.setColors(colors)

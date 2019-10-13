@@ -1,7 +1,9 @@
 package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -43,6 +45,7 @@ public class SinglePlayer extends AppCompatActivity {
     private LinearLayout app_layer;
     //image
     private ImageView ball;
+    private ImageView background;
 
     //position
     private double ballX;
@@ -98,8 +101,9 @@ public class SinglePlayer extends AppCompatActivity {
 
         ball = (ImageView) findViewById(R.id.ball);
         app_layer = (LinearLayout) findViewById(R.id.Layout);
-        //get screen size
+        background = (ImageView) findViewById(R.id.background);
 
+        //get screen size
         WindowManager wm = getWindowManager();
         Display disp = wm.getDefaultDisplay();
         Point size = new Point();
@@ -161,7 +165,7 @@ public class SinglePlayer extends AppCompatActivity {
                 timer.cancel();
                 actionTimer.cancel();
                 //click on screen
-                if(lives >0){
+                if(lives >1){
                     lives -= 1;
                 }
                 else{
@@ -242,6 +246,7 @@ public class SinglePlayer extends AppCompatActivity {
         p_speed = 0;
 
         if (g_level<10){
+            //app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
             action_period  = 60;
             vel_multiplier= 0.2 + 0.05 * g_level;
