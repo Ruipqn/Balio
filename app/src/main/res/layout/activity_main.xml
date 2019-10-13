@@ -76,17 +76,20 @@
         android:id="@+id/audioOn"
         android:layout_width="65dp"
         android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_ABT"
+        app:layout_constraintVertical_bias="0.174"
         app:srcCompat="@drawable/audioon"
-        tools:layout_editor_absoluteX="173dp"
-        tools:layout_editor_absoluteY="565dp" />
+        tools:layout_editor_absoluteX="173dp" />
 
     <ImageView
         android:id="@+id/audioOff"
         android:layout_width="65dp"
         android:layout_height="65dp"
+        android:layout_marginBottom="104dp"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:srcCompat="@drawable/audiooff"
-        tools:layout_editor_absoluteX="173dp"
-        tools:layout_editor_absoluteY="565dp" />
+        tools:layout_editor_absoluteX="173dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
