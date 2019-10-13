@@ -2,6 +2,7 @@ package com.BreakingDev.MindofBeyond;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
@@ -55,7 +56,7 @@ public class Multiplayer extends AppCompatActivity {
     private RotationMethods rm;
 
     private Player current_player;
-    private List<Player> all_players;
+    private ArrayList<Player> all_players;
 
     //probabilities
     private double p_nothing;
@@ -80,7 +81,7 @@ public class Multiplayer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.single_player);
+        setContentView(R.layout.multi_player);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
@@ -99,7 +100,28 @@ public class Multiplayer extends AppCompatActivity {
         pm = new PositionMethods(screenWidth, screenHeigh, ball.getWidth(), ball.getHeight());
         rm = new RotationMethods();
 
-        all_players = getIntent().getParcelableExtra("all_players");
+        all_players = new ArrayList<>();
+
+        Integer counter = 0;
+
+        Integer max_counter;
+
+        if (getIntent().getStringExtra("counter") == null) {
+            max_counter = 0;
+        } else {
+            max_counter = Integer.parseInt(getIntent().getStringExtra("counter"));
+        }
+
+        while (true) {
+            if (counter >= max_counter) {
+                break;
+            }
+            counter += 1;
+            String new_player_name = (getIntent().getStringExtra(counter.toString() + "_name"));
+            String new_player_color = (getIntent().getStringExtra(counter.toString() + "_color"));
+            Player pl = new Player(new_player_name, new_player_color);
+            all_players.add(pl);
+        }
 
         //Start the game
         gameStart();
@@ -123,8 +145,9 @@ public class Multiplayer extends AppCompatActivity {
         //define Level 1
         level.setL(0);
 
-        int player_select = (int) Math.round(Math.random() * all_players.size());
+        int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
         current_player = all_players.get(player_select);
+        changeBall();
 
         //Array [10,20,....,70][p_nothing, p_dir, p_tp]
 
@@ -189,9 +212,11 @@ public class Multiplayer extends AppCompatActivity {
         Player selected_player = current_player;
 
         while (selected_player.equals(current_player)) {
-            int player_select = (int) Math.round(Math.random() * all_players.size());
+            int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
             current_player = all_players.get(player_select);
         }
+
+        changeBall();
 
         Double[] settings_used;
         //velocity
@@ -351,9 +376,10 @@ public class Multiplayer extends AppCompatActivity {
                 ballX + ball.getWidth() < 0 | ballX > screenWidth) {
             //create new starting point
 
-            if (Math.random() > 0.8) {
-                int player_select = (int) Math.round(Math.random() * all_players.size());
+            if (Math.random() < 0.4) {
+                int player_select = (int) Math.round(Math.random() * (all_players.size() - 1));
                 current_player = all_players.get(player_select);
+                changeBall();
             }
 
             List<Double> pos = pm.genStart();
@@ -402,5 +428,9 @@ public class Multiplayer extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    public void changeBall() {
+        String player_color = current_player.getColor();
+        int int_color = Integer.parseInt(player_color);
+        ball.getBackground().setColorFilter(int_color, PorterDuff.Mode.ADD);
+    }
 }

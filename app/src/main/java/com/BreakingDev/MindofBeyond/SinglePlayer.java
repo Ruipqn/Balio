@@ -203,7 +203,6 @@ public class SinglePlayer extends AppCompatActivity {
         life1.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life2.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
         life3.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
-        ball.getBackground().setColorFilter(Color.parseColor(ball_color), PorterDuff.Mode.ADD);
 
         //ball.getBackground().setColorFilter(0xf0f0f0,android.graphics.PorterDuff.Mode.SRC_IN);
         //ball.setColorFilter(0x111111,android.graphics.PorterDuff.Mode.SRC_IN);
@@ -273,7 +272,7 @@ public class SinglePlayer extends AppCompatActivity {
             //app_layer.setBackgroundColor(Color.rgb(0x27,0x6C,0xCC));
             rm.setBaseRotation(10);
             action_period  = 60;
-            vel_multiplier= 0.2 + 0.05 * g_level;
+            vel_multiplier = 0.2 + 0.05 * g_level + 0.2;
         }
         else if (g_level<20){
             rm.setBaseRotation(12);
