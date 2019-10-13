@@ -72,6 +72,8 @@ public class Menu_multiplayer extends AppCompatActivity {
 
                     editText.getText().clear();
                     addOk=0;
+                    if(count ==3)start_game.setVisibility(View.VISIBLE); //To set visible
+
                     btAdd.setVisibility(View.INVISIBLE); //To set visible
 
                 }
