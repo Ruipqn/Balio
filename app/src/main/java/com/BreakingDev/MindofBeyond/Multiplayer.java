@@ -39,6 +39,11 @@ public class Multiplayer extends AppCompatActivity {
     private ImageView ball;
     private ImageView background;
 
+    //lifes
+    private ImageView live1;
+    private ImageView live2;
+    private ImageView live3;
+
     //position
     private double ballX;
     private double ballY;
@@ -88,6 +93,10 @@ public class Multiplayer extends AppCompatActivity {
         ball = (ImageView) findViewById(R.id.ball);
         app_layer = (LinearLayout) findViewById(R.id.Layout);
         background = (ImageView) findViewById(R.id.background);
+
+        live1 = (ImageView) findViewById(R.id.life1);
+        live2 = (ImageView) findViewById(R.id.life2);
+        live3 = (ImageView) findViewById(R.id.life3);
 
         //get screen size
         WindowManager wm = getWindowManager();
@@ -432,5 +441,28 @@ public class Multiplayer extends AppCompatActivity {
         String player_color = current_player.getColor();
         int int_color = Integer.parseInt(player_color);
         ball.getBackground().setColorFilter(int_color, PorterDuff.Mode.ADD);
+        live1.getBackground().setColorFilter(int_color, PorterDuff.Mode.ADD);
+        live2.getBackground().setColorFilter(int_color, PorterDuff.Mode.ADD);
+        live3.getBackground().setColorFilter(int_color, PorterDuff.Mode.ADD);
+        changeLives(current_player.getLives());
+    }
+    public void changeLives(int lives){
+        if(lives ==3){
+            live1.setVisibility(View.VISIBLE);
+            live2.setVisibility(View.VISIBLE);
+            live3.setVisibility(View.VISIBLE);
+        }else if(lives ==2){
+            live1.setVisibility(View.VISIBLE);
+            live2.setVisibility(View.VISIBLE);
+            live3.setVisibility(View.INVISIBLE);
+        }else if(lives ==1){
+            live1.setVisibility(View.VISIBLE);
+            live2.setVisibility(View.INVISIBLE);
+            live3.setVisibility(View.INVISIBLE);
+        }else{
+            live1.setVisibility(View.INVISIBLE);
+            live2.setVisibility(View.INVISIBLE);
+            live3.setVisibility(View.INVISIBLE);
+        }
     }
 }

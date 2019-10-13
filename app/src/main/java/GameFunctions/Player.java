@@ -5,13 +5,13 @@ public class Player {
     private String name;
     private String color;
     private int points;
-    private int lifes;
+    private int lives;
 
     public Player(String name, String color) {
         this.name = name;
         this.color = color;
         this.points = 0;
-        resetLifes();
+        resetLives();
     }
 
     public void setPoints() {
@@ -30,19 +30,19 @@ public class Player {
         return name;
     }
 
-    public int getLifes() {
-        return lifes;
+    public int getLives() {
+        return lives;
     }
 
-    public void addLifes() {
-        this.lifes += 1;
+    public void addLives() {
+        this.lives += 1;
     }
 
-    public void removeLifes() {
-        this.lifes -= 1;
+    public void removeLives() {
+        this.lives -= 1;
     }
 
-    public void resetLifes() {
-        this.lifes = 3;
+    public void resetLives() {
+        this.lives = 3;
     }
 }
