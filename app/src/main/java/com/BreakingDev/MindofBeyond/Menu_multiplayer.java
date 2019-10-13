@@ -60,6 +60,7 @@ public class Menu_multiplayer extends AppCompatActivity {
                     count += 1;
                     String newItem = editText.getText().toString();
                     String result = counter + ". " + newItem;
+
                     // add result to arraylist
                     itemList.add(result);
 

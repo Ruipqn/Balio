@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_app"
+    tools:context=".OptionsMenu">
+
+    <Switch
+        android:id="@+id/musicSwitch"
+        android:layout_width="280dp"
+        android:layout_height="106dp"
+        android:layout_marginBottom="388dp"
+        android:fontFamily="casual"
+        android:text="Music"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#00E500"
+        android:textColorLink="#00E500"
+        android:textCursorDrawable="@color/color12"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.572"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/OptionsTittle"
+        app:layout_constraintVertical_bias="1.0"
+        android:thumbTint="@color/lite_blue"
+        android:trackTint="@color/white"
+        android:checked="true"/>
+
+    <Switch
+        android:id="@+id/EffectSwitch"
+        android:layout_width="280dp"
+        android:layout_height="106dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="252dp"
+        android:fontFamily="casual"
+        android:text="Effects"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#00E500"
+        android:textColorLink="#00E500"
+        android:textCursorDrawable="@color/color12"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:thumbTint="@color/lite_blue"
+        android:trackTint="@color/white"
+        android:checked="true"/>
+
+    <TextView
+        android:id="@+id/OptionsTittle"
+        android:layout_width="280dp"
+        android:layout_height="106dp"
+        android:layout_marginBottom="532dp"
+        android:fontFamily="casual"
+        android:text="Options"
+        android:textAlignment="center"
+        android:textColor="#FF9100"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
