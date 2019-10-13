@@ -166,10 +166,10 @@ public class Multiplayer extends AppCompatActivity {
 
         timer = new Timer();
 
-        List<Double> pos = pm.genStart();
+        List<Double> position = pm.genStart();
 
-        ballX = pos.get(0);
-        ballY = pos.get(1);
+        ballX = position.get(0);
+        ballY = position.get(1);
 
         ball.setX((float)ballX);
         ball.setY((float)ballY);
