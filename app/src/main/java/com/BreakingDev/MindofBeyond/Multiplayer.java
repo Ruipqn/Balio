@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,6 +70,7 @@ public class Multiplayer extends AppCompatActivity {
     private ArrayList<Player> all_players;
     private ArrayList<Player> all_players_aux;
 
+    private TextView winner;
     //probabilities
     private double p_nothing;
     private double p_dir;
@@ -103,6 +105,8 @@ public class Multiplayer extends AppCompatActivity {
         live1 = (ImageView) findViewById(R.id.life1);
         live2 = (ImageView) findViewById(R.id.life2);
         live3 = (ImageView) findViewById(R.id.life3);
+
+        winner = (TextView) findViewById(R.id.winner);
 
         retry  = (ImageView) findViewById(R.id.retry);
         back  = (ImageView) findViewById(R.id.back);
@@ -161,11 +165,17 @@ public class Multiplayer extends AppCompatActivity {
     }
 
     public void gameStart(){
+
+        winner.setVisibility(View.INVISIBLE);
         //define Level 1
 
         all_players_aux = new ArrayList<>(all_players);
 
+        for(Player x: all_players_aux){
+            x.resetLives();
+        }
         level.setL(0);
+
 
         int player_select = (int) Math.round(Math.random() * (all_players_aux.size() - 1));
         current_player = all_players_aux.get(player_select);
@@ -212,9 +222,11 @@ public class Multiplayer extends AppCompatActivity {
                     runLevel(level.getL());
                 }
                 else{
+
                     retry.setVisibility(View.VISIBLE);
                     back.setVisibility(View.VISIBLE);
-
+                    app_layer.setEnabled(false);
+                    ball.setEnabled(false);
                 }
 
                 // pop_up restart button and go to menu button plus scores
@@ -224,12 +236,23 @@ public class Multiplayer extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //click on retry
+                String name = all_players_aux.get(0).getName();
+                String message = "Congratulations, " + name+ " !!!";
+                winner.setText(message);
+                winner.setVisibility(View.VISIBLE);
+                retry.setVisibility(View.INVISIBLE);
+                back.setVisibility(View.INVISIBLE);
+                //todo desativar clicks
+                app_layer.setEnabled(true);
+                ball.setEnabled(true);
+                gameStart();
             }
         });
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //click on back
+                finish();
             }
         });
 
